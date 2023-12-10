@@ -55,8 +55,8 @@ async def get_bus_info(routes: str = Path(...), st_id: str = Path(...)):
             }
     return {}
 
-@app.get('/get_ars_id_info/{routes}/stId/{st_id}')
-async def get_ars_id_info(routes: str = Path(...), st_id: str = Path(...)):
+@app.get('/get_bus_info/{routes}/stId/{st_id}')
+async def get_bus_info(routes: str = Path(...), st_id: str = Path(...)):
     url = 'http://ws.bus.go.kr/api/rest/arrive/getArrInfoByRouteAll'
     params = {
         'serviceKey': 'WVI7ZtvAVX6hik3qi1Y37dBT8JHku9C+WhfM2MKgmcnMqJvckqqUdOpGAf9EpWdzA5gsaTyth86/Jnvo10Xxwg==',
