@@ -16,4 +16,4 @@
 3. kakao Map API
 
 ## Server
-- [aws flask 서버 연결 완료](http://13.236.145.65:8000/docs)<br>
+- [aws fastapi server](http://13.236.145.65:8000/docs)<br>
