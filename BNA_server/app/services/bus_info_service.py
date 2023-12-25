@@ -1,20 +1,7 @@
 import httpx
 import xml.etree.ElementTree as ET
-from app.deps import route_type_colors
-from app.deps import BUS_API_URL
-
-
-async def extract_bus_info(item):
-    return {
-        'routeType': item.find('routeType').text,
-        'routeColor': route_type_colors.get(item.find('routeType').text, 'Unknown'),
-        'rtNm': item.find('rtNm').text,
-        'stId': item.find('stId').text,
-        'stNm': item.find('stNm').text,
-        'arrmsg1': item.find('arrmsg1').text,
-        'arrmsg2': item.find('arrmsg2').text
-    }
-
+from app.utilities.keys import BUS_API_URL
+from app.utilities.deps import extract_bus_info
 
 async def get_bus_info(route_id: str, stId: str):
     url = f"{BUS_API_URL}&busRouteId={route_id}"
@@ -57,3 +44,9 @@ async def bus_finder(route_id: str, stId: str):
 
     except ET.ParseError:
         return {"error": "Error parsing XML."}
+
+    except httpx.HTTPError as http_err:
+        return {"error": f"HTTP error: {http_err}"}
+
+    except Exception as e:
+        return {"error": f"An unexpected error occurred: {str(e)}"}

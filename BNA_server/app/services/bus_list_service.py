@@ -1,7 +1,7 @@
-import httpx, json
+import httpx
+import json
 import xml.etree.ElementTree as ET
-from app.deps import BUS_API_URL
-
+from app.utilities.keys import BUS_API_URL
 
 async def bus_list(route_id: str, stId: str):
     url = f"{BUS_API_URL}&busRouteId={route_id}"
@@ -19,7 +19,10 @@ async def bus_list(route_id: str, stId: str):
             if itemList.find('stId').text == stId:
                 stNm = itemList.find('stNm').text
 
-        return await route_information(stNm, stId)
+        if stNm:
+            return await route_information(stNm, stId)
+        else:
+            return {"error": "Station not found in API response."}
 
     except ET.ParseError:
         return {"error": "Error parsing XML."}
@@ -34,10 +37,16 @@ async def route_information(name: str, stId: str):
             data = json.load(json_file)
 
             for item in data:
-                if item['정류소명'] == name and item['NODE_ID'] == stId:
-                    res.append(item['노선명'])
+                if item.get('정류소명') == name and item.get('NODE_ID') == stId:
+                    res.append(item.get('노선명'))
 
-            return list(res)
+            if res:
+                return list(res)
+            else:
+                return {"error": "No matching routes found in JSON data."}
+
     except FileNotFoundError:
-        print({file_path})
-        return None
+        return {"error": f"File not found: {file_path}"}
+
+    except json.JSONDecodeError:
+        return {"error": f"Error decoding JSON data."}

@@ -1,16 +1,17 @@
-from fastapi import APIRouter, Query, HTTPException
-from app.services.bus_api_service import bus_finder
+from fastapi import APIRouter, Query
+from app.services.bus_finder_service import bus_finder
+from app.utilities.deps import pattern
+from app.utilities.exceptions import handle_exceptions
 
 router = APIRouter()
 
-
 @router.get("/bus_finder")
 async def bus_finder_routes(
-        route_id: str = Query(..., description="Route ID as a string"),
-        stId: str = Query(..., description="Station ID as a string")
+        route_id: str = Query(..., description="Route ID as a string", regex=pattern),
+        stId: str = Query(..., description="Station ID as a string", regex=pattern)
 ):
-    if not route_id or not stId:
-        raise HTTPException(status_code=400, detail="Invalid input: route_id and stId must be provided.")
-    else:
+    try:
         result = await bus_finder(route_id, stId)
         return result
+    except Exception as e:
+        raise handle_exceptions(e)
