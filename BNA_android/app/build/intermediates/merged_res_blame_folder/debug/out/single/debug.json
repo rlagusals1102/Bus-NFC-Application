@@ -1,0 +1,254 @@
+[
+    {
+        "merged": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-merged_res-32:/drawable_station_previ_next.xml.flat",
+        "source": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-main-34:/drawable/station_previ_next.xml"
+    },
+    {
+        "merged": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-merged_res-32:/drawable_round_dialog_top.xml.flat",
+        "source": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-main-34:/drawable/round_dialog_top.xml"
+    },
+    {
+        "merged": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-merged_res-32:/drawable_station_previ.xml.flat",
+        "source": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-main-34:/drawable/station_previ.xml"
+    },
+    {
+        "merged": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-merged_res-32:/mipmap-anydpi_ic_launcher.xml.flat",
+        "source": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-main-34:/mipmap-anydpi/ic_launcher.xml"
+    },
+    {
+        "merged": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-merged_res-32:/layout_activity_main.xml.flat",
+        "source": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-main-34:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.example.nfc.app-merged_res-32:/drawable_dialog_select_btn.xml.flat",
+        "source": "com.example.nfc.app-main-34:/drawable/dialog_select_btn.xml"
+    },
+    {
+        "merged": "com.example.nfc.app-merged_res-32:/drawable_bus_station_location_maker.png.flat",
+        "source": "com.example.nfc.app-main-34:/drawable/bus_station_location_maker.png"
+    },
+    {
+        "merged": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-merged_res-32:/drawable_arrow_1.png.flat",
+        "source": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-main-34:/drawable/arrow_1.png"
+    },
+    {
+        "merged": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-merged_res-32:/font_eastarjet.otf.flat",
+        "source": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-main-34:/font/eastarjet.otf"
+    },
+    {
+        "merged": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-merged_res-32:/mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-main-34:/mipmap-mdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-merged_res-32:/drawable_station_next.xml.flat",
+        "source": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-main-34:/drawable/station_next.xml"
+    },
+    {
+        "merged": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-merged_res-32:/drawable_sub_bar_drag.xml.flat",
+        "source": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-main-34:/drawable/sub_bar_drag.xml"
+    },
+    {
+        "merged": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-merged_res-32:/drawable_current_location_maker.png.flat",
+        "source": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-main-34:/drawable/current_location_maker.png"
+    },
+    {
+        "merged": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-merged_res-32:/drawable_logo1.png.flat",
+        "source": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-main-34:/drawable/logo1.png"
+    },
+    {
+        "merged": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-merged_res-32:/drawable_arrow.png.flat",
+        "source": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-main-34:/drawable/arrow.png"
+    },
+    {
+        "merged": "com.example.nfc.app-merged_res-32:/drawable_station_current.xml.flat",
+        "source": "com.example.nfc.app-main-34:/drawable/station_current.xml"
+    },
+    {
+        "merged": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-merged_res-32:/layout_bus_info_dialog.xml.flat",
+        "source": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-main-34:/layout/bus_info_dialog.xml"
+    },
+    {
+        "merged": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-merged_res-32:/font_eastarjet_medium.otf.flat",
+        "source": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-main-34:/font/eastarjet_medium.otf"
+    },
+    {
+        "merged": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-merged_res-32:/mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-main-34:/mipmap-hdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.nfc.app-merged_res-32:/layout_bus_info_long.xml.flat",
+        "source": "com.example.nfc.app-main-34:/layout/bus_info_long.xml"
+    },
+    {
+        "merged": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-merged_res-32:/drawable_bus_logo.png.flat",
+        "source": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-main-34:/drawable/bus_logo.png"
+    },
+    {
+        "merged": "com.example.nfc.app-merged_res-32:/drawable_station_next.xml.flat",
+        "source": "com.example.nfc.app-main-34:/drawable/station_next.xml"
+    },
+    {
+        "merged": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-merged_res-32:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-main-34:/mipmap-xxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-merged_res-32:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-main-34:/mipmap-xxxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-merged_res-32:/mipmap-anydpi_ic_launcher_round.xml.flat",
+        "source": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-main-34:/mipmap-anydpi/ic_launcher_round.xml"
+    },
+    {
+        "merged": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-merged_res-32:/drawable_dialog_select_btn.xml.flat",
+        "source": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-main-34:/drawable/dialog_select_btn.xml"
+    },
+    {
+        "merged": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-merged_res-32:/font_font.xml.flat",
+        "source": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-main-34:/font/font.xml"
+    },
+    {
+        "merged": "com.example.nfc.app-merged_res-32:/drawable_round_dialog_btn.xml.flat",
+        "source": "com.example.nfc.app-main-34:/drawable/round_dialog_btn.xml"
+    },
+    {
+        "merged": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-merged_res-32:/xml_aid_list.xml.flat",
+        "source": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-main-34:/xml/aid_list.xml"
+    },
+    {
+        "merged": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-merged_res-32:/mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-main-34:/mipmap-xhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.nfc.app-merged_res-32:/layout_activity_notification.xml.flat",
+        "source": "com.example.nfc.app-main-34:/layout/activity_notification.xml"
+    },
+    {
+        "merged": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-merged_res-32:/drawable_ic_launcher_background.xml.flat",
+        "source": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-main-34:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "com.example.nfc.app-merged_res-32:/drawable_station_previ.xml.flat",
+        "source": "com.example.nfc.app-main-34:/drawable/station_previ.xml"
+    },
+    {
+        "merged": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-merged_res-32:/drawable_sub_bar.xml.flat",
+        "source": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-main-34:/drawable/sub_bar.xml"
+    },
+    {
+        "merged": "com.example.nfc.app-merged_res-32:/layout_activity_main.xml.flat",
+        "source": "com.example.nfc.app-main-34:/layout/activity_main.xml"
+    },
+    {
+        "merged": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-merged_res-32:/drawable_logo2.png.flat",
+        "source": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-main-34:/drawable/logo2.png"
+    },
+    {
+        "merged": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-merged_res-32:/drawable_station_current.xml.flat",
+        "source": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-main-34:/drawable/station_current.xml"
+    },
+    {
+        "merged": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-merged_res-32:/drawable_round_dialog_btn.xml.flat",
+        "source": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-main-34:/drawable/round_dialog_btn.xml"
+    },
+    {
+        "merged": "com.example.nfc.app-merged_res-32:/drawable_station_previ_next.xml.flat",
+        "source": "com.example.nfc.app-main-34:/drawable/station_previ_next.xml"
+    },
+    {
+        "merged": "com.example.nfc.app-merged_res-32:/drawable_round_dialog_top.xml.flat",
+        "source": "com.example.nfc.app-main-34:/drawable/round_dialog_top.xml"
+    },
+    {
+        "merged": "com.example.nfc.app-merged_res-32:/drawable_ic_launcher_background.xml.flat",
+        "source": "com.example.nfc.app-main-34:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-merged_res-32:/xml_data_extraction_rules.xml.flat",
+        "source": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-main-34:/xml/data_extraction_rules.xml"
+    },
+    {
+        "merged": "com.example.nfc.app-merged_res-32:/layout_bus_sub_bar.xml.flat",
+        "source": "com.example.nfc.app-main-34:/layout/bus_sub_bar.xml"
+    },
+    {
+        "merged": "com.example.nfc.app-merged_res-32:/layout_bus_info_dialog.xml.flat",
+        "source": "com.example.nfc.app-main-34:/layout/bus_info_dialog.xml"
+    },
+    {
+        "merged": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-merged_res-32:/drawable_round_dialog.xml.flat",
+        "source": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-main-34:/drawable/round_dialog.xml"
+    },
+    {
+        "merged": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-merged_res-32:/xml_network_security_config.xml.flat",
+        "source": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-main-34:/xml/network_security_config.xml"
+    },
+    {
+        "merged": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-merged_res-32:/drawable_img.png.flat",
+        "source": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-main-34:/drawable/img.png"
+    },
+    {
+        "merged": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-merged_res-32:/mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-main-34:/mipmap-mdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-merged_res-32:/drawable_logo.png.flat",
+        "source": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-main-34:/drawable/logo.png"
+    },
+    {
+        "merged": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-merged_res-32:/mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-main-34:/mipmap-hdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.nfc.app-merged_res-32:/drawable_round_dialog.xml.flat",
+        "source": "com.example.nfc.app-main-34:/drawable/round_dialog.xml"
+    },
+    {
+        "merged": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-merged_res-32:/layout_activity_notification.xml.flat",
+        "source": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-main-34:/layout/activity_notification.xml"
+    },
+    {
+        "merged": "com.example.nfc.app-merged_res-32:/drawable_sub_bar.xml.flat",
+        "source": "com.example.nfc.app-main-34:/drawable/sub_bar.xml"
+    },
+    {
+        "merged": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-merged_res-32:/drawable_under_line.xml.flat",
+        "source": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-main-34:/drawable/under_line.xml"
+    },
+    {
+        "merged": "com.example.nfc.app-merged_res-32:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "com.example.nfc.app-main-34:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "com.example.nfc.app-merged_res-32:/layout_bus_info_short.xml.flat",
+        "source": "com.example.nfc.app-main-34:/layout/bus_info_short.xml"
+    },
+    {
+        "merged": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-merged_res-32:/xml_backup_rules.xml.flat",
+        "source": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-main-34:/xml/backup_rules.xml"
+    },
+    {
+        "merged": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-merged_res-32:/mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-main-34:/mipmap-xxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.nfc.app-merged_res-32:/drawable_under_line.xml.flat",
+        "source": "com.example.nfc.app-main-34:/drawable/under_line.xml"
+    },
+    {
+        "merged": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-merged_res-32:/mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-main-34:/mipmap-xhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-merged_res-32:/mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-main-34:/mipmap-xxxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.nfc.app-merged_res-32:/drawable_sub_bar_drag.xml.flat",
+        "source": "com.example.nfc.app-main-34:/drawable/sub_bar_drag.xml"
+    },
+    {
+        "merged": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-merged_res-32:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "/Users/khm1380/.gradle/daemon/8.2/com.example.nfc.app-main-34:/drawable/ic_launcher_foreground.xml"
+    }
+]

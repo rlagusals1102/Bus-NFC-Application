@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/sub_bar">
+        <View
+            android:id="@+id/sub_bar_back"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:background="@drawable/sub_bar"/>
+        <View
+            android:id="@+id/sub_bar_drag"
+            android:layout_width="50dp"
+            android:layout_height="6dp"
+            android:background="@drawable/sub_bar_drag"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            />
+    </RelativeLayout>
+</LinearLayout>

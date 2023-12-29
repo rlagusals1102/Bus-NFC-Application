@@ -1,73 +1,72 @@
 package com.example.nfc;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.nfc.tech.Ndef;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.nio.charset.Charset;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
-import android.content.DialogInterface;
-import android.location.LocationManager;
-import android.view.ViewGroup;
-
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.ParseError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.shashank.sony.fancytoastlib.FancyToast;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     TextView secondBus, firstBus, nextStation, previStation, currentStation, busNumber, secondBusShort, firstBusShort, busNumberShort;
     View busInfoBack, busInfoBackShort, subBarBack, subBarBack2;
     Button currentLocationBtn;
     LinearLayout busInfo, busInfoShort;
-
+    RelativeLayout bus;
+    boolean check = false;
     private float offsetY, layoutLine;
 
     private NfcAdapter nfcAdapter = null;
@@ -79,12 +78,12 @@ public class MainActivity extends AppCompatActivity {
     private static final int PERMISSIONS_REQUEST_CODE = 100;
 
     private GPSTracker gpsTracker;
-    private MapPOIItem currentLocation;
+    private MapPOIItem currentLocation, busStationLocation;
     String[] REQUIRED_PERMISSIONS = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
     boolean checkLocation;
     private RequestQueue requestQueue;
-    private String url = "";
     private String[] payloadList;
+    MapView mapView;
 
 
 //    final DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
@@ -95,22 +94,27 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+//        getHashKey();
+
         try {
             Uri uri = getIntent().getData();
             String data = uri.getQueryParameter("data");
             Toast.makeText(this, data, Toast.LENGTH_SHORT).show();
 
             payloadList = data.split(",");
-            getBusInfo(payloadList);
-        }
-        catch (Exception ex) {
+
+            System.out.println(payloadList);
+
+            getBusInfo();
+            // 나중에 손 보기
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
 
         requestQueue = Volley.newRequestQueue(getApplicationContext());
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        MapView mapView = new MapView(this);
+        mapView = new MapView(this);
 
         ViewGroup mapViewContainer = (ViewGroup) findViewById(R.id.kakao_map);
         mapViewContainer.addView(mapView);
@@ -118,6 +122,9 @@ public class MainActivity extends AppCompatActivity {
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
 
         currentLocation = new MapPOIItem();
+        busStationLocation = new MapPOIItem();
+
+        bus = (RelativeLayout) findViewById(R.id.bus);
 
         busInfo = (LinearLayout) findViewById(R.id.bus_info);
         busInfoShort = (LinearLayout) findViewById(R.id.bus_info_short);
@@ -125,7 +132,6 @@ public class MainActivity extends AppCompatActivity {
         busInfoBackShort = (View) findViewById(R.id.bus_info_back_short);
 
         subBarBack = (View) findViewById(R.id.sub_bar_back);
-        subBarBack2 = (View) findViewById(R.id.sub_bar_back2);
 
         busNumber = (TextView) findViewById(R.id.bus_number);
         busNumberShort = (TextView) findViewById(R.id.bus_number_short);
@@ -140,88 +146,56 @@ public class MainActivity extends AppCompatActivity {
 
         currentLocationBtn = (Button) findViewById(R.id.currentLocation);
 
-        if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if(ContextCompat.checkSelfPermission(MainActivity.this,
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(MainActivity.this,
                     Manifest.permission.POST_NOTIFICATIONS) !=
                     PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(MainActivity.this,
-                        new String[] {Manifest.permission.POST_NOTIFICATIONS}, 101);
+                        new String[]{Manifest.permission.POST_NOTIFICATIONS}, 101);
             }
         }
 
         startService(new Intent(this, Foreground.class));
-        checkLocation = false;
         currentLocationBtn.setOnClickListener(v -> {
-            if (!checkLocation && !checkLocationServicesStatus()) {
+            if (!checkLocationServicesStatus()) {
+                Toast.makeText(this, "GPS가 꺼져 있습니다.", Toast.LENGTH_SHORT).show();
                 showDialogForLocationServiceSetting();
-                checkLocation = true;
             } else {
                 checkRunTimePermission();
-                currentLocation(mapView);
+                currentLocation();
             }
 
         });
 
         // main bar 움직이는 부분
-        busInfo.setY(750);
-        busInfo.setOnTouchListener(new View.OnTouchListener() { // bar 움직일 때
+        bus.setY(750);
+        bus.setOnTouchListener(new View.OnTouchListener() { // bar 움직일 때
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 int action = event.getAction();
 
                 if (action == event.ACTION_DOWN) {   //처음 눌렸을 때
-                    offsetY = event.getRawY() - busInfo.getY();
+                    check = !check;
+                    clickVisibility(check);
+//                    offsetY = event.getRawY() - busInfo.getY();
+//                    if (layoutLine > 375) {
+//                        clickVisibility(v);
+//                    }
                 } else if (action == event.ACTION_MOVE) {    //누르고 움직였을 때
                     layoutLine = event.getRawY() - offsetY;
-                    if(layoutLine < 0)
-                        layoutLine = 0;
-                    else if(layoutLine > 750)
-                        layoutLine = 750;
-
-                    busInfo.setY(layoutLine);
+//
+//                    bus.setY(layoutLine);
 
                     System.out.println("getRawY : " + event.getRawY());
                     System.out.println("offsetY : " + offsetY);
                     System.out.println("setY : " + layoutLine);
-                } else if(action == event.ACTION_UP){
-                    if(layoutLine <= 375) {
-                        layoutLine = 0;
-                    } else if(layoutLine > 375){
-                        layoutLine = 750;
-                    }
-                    if(layoutLine >= 750) {
-                        clickVisibility(v);
-                    }
-                }
-                return true;
-            }
-        });
-        busInfoShort.setOnTouchListener(new View.OnTouchListener() { // bar 움직일 때
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                int action = event.getAction();
-
-                if (action == event.ACTION_DOWN) {   //처음 눌렸을 때
-                    clickVisibility(v);
-                    offsetY = event.getRawY() - busInfo.getY();
-                } else if (action == event.ACTION_MOVE) {    //누르고 움직였을 때
-                    layoutLine = event.getRawY() - offsetY;
-                    if(layoutLine < 0)
-                        layoutLine = 0;
-                    else if(layoutLine > 750)
-                        layoutLine = 750;
-
-                    busInfo.setY(layoutLine);
-
-                } else if(action == event.ACTION_UP){
-                    if(layoutLine <= 375) {
-                        layoutLine = 0;
-                    } else if(layoutLine > 375){
-                        layoutLine = 750;
-                    }
-                    if(layoutLine >= 750) {
-                        clickVisibility(v);
-                    }
+                } else if (action == event.ACTION_UP) {
+//                    if(layoutLine <= 375) {
+//                        layoutLine = 0;
+//                    } else if(layoutLine > 375){
+//                        clickVisibility(v);
+//                        layoutLine = 750;
+//                    }
                 }
                 return true;
             }
@@ -230,80 +204,29 @@ public class MainActivity extends AppCompatActivity {
 
     // main xml
 
-    public void clickVisibility(View view){
+    public void clickVisibility(boolean check) {
         turnoff();
-        switch (view.getId()){
-            case R.id.bus_info:
-                Log.e("name","실행됨");
-                busInfoShort.setVisibility(View.VISIBLE);
-                break;
-            case R.id.bus_info_short:
-                Log.e("name","실행됨");
-                busInfo.setVisibility(View.VISIBLE);
-                break;
+        if (!check) {
+            Log.e("name", "실행됨");
+            busInfoShort.setVisibility(View.VISIBLE);
+            bus.setY(750);
+        } else {
+            Log.e("name", "실행됨");
+            busInfo.setVisibility(View.VISIBLE);
+            bus.setY(0);
         }
     }
 
-    public void turnoff(){
+    public void turnoff() {
         busInfo.setVisibility(View.INVISIBLE);
         busInfoShort.setVisibility(View.INVISIBLE);
     }
 
-    // 예비 아두이노 코드
-
-    private void processCommand(Intent intent) {
-        String Congestion[] = new String[2];
-        int n[] = new int[2];
-
-        if(intent != null) {
-            String stNm = intent.getStringExtra("stNm");
-            String rtNm = intent.getStringExtra("rtNm");
-            String arrmsg1 = intent.getStringExtra("arrmsg1");
-            String arrmsg2 = intent.getStringExtra("arrmsg2");
-            String brdrdeNum1 = intent.getStringExtra("brdrdeNum1");
-            String brdrdeNum2 = intent.getStringExtra("brdrdeNum2");
-
-            n[0] = Integer.parseInt(brdrdeNum1);
-            n[1] = Integer.parseInt(brdrdeNum2);
-
-            if(n[0] >= 5) {
-                Congestion[0] = "혼잡";
-            }
-            else if(n[0] >= 4) {
-                Congestion[0] = "보통";
-            }
-            else if(n[0] >= 3) {
-                Congestion[0] = "여유";
-            }
-            else {
-                Congestion[0] = "데이터 없음";
-            }
-            if(n[1] >= 5) {
-                Congestion[1] = "혼잡";
-            }
-            else if(n[1] >= 4) {
-                Congestion[1] = "보통";
-            }
-            else if(n[1] >= 3) {
-                Congestion[1] = "여유";
-            }
-            else {
-                Congestion[1] = "데이터 없음";
-            }
-
-            busNumber.setText(rtNm + " 번 버스");
-            currentStation.setText("노원경찰서.혜성여고");
-            previStation.setText("세이브존스포츠센터");
-            nextStation.setText("동천학교");
-            firstBus.setText(arrmsg1 + "(" + Congestion[0] + ")");
-            secondBus.setText(arrmsg2 + "(" + Congestion[1] + ")");
-
-        }
-    }
 
     // NFC border
     // 리스트 부분 띄어주기
     private Dialog busInfoDialog;
+
     private void showBusInfo(List<String> busNameList) {
         if (busInfoDialog != null && busInfoDialog.isShowing()) {
             return;
@@ -335,13 +258,13 @@ public class MainActivity extends AppCompatActivity {
                 // selectBus(busName);
                 FancyToast.makeText(this, "성공적으로 버스 정보를 가져왔어요!", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
                 busInfoDialog.dismiss();
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 ex.printStackTrace();
                 FancyToast.makeText(this, "버스를 선택해주세요!", FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
             }
         });
     }
+
     // 정거장 리스트 부분
     @Override
     protected void onResume() {
@@ -354,7 +277,7 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onTagDiscovered(Tag tag) {
                                 try {
-                                    if (tag != null){
+                                    if (tag != null) {
                                         Ndef ndef = Ndef.get(tag);
                                         ndef.connect();
 
@@ -363,21 +286,21 @@ public class MainActivity extends AppCompatActivity {
                                         NdefRecord record = ndefMessage.getRecords()[0];
 
                                         String payload = new String(record.getPayload(), 1, record.getPayload().length - 1, Charset.forName("UTF-8"));
-                                        payload = payload.substring(2);
+//                                        payload = payload.substring(2);
+                                        payload = payload.split("=")[1];
                                         Log.e("payload", payload);
 
                                         payloadList = payload.split(",");
 
-                                        for(int i = 0; i < payloadList.length;i++){
+                                        for (int i = 0; i < payloadList.length; i++) {
                                             Log.e("testing : ", payloadList[i]);
                                         }
 
-                                        getBusInfo(payloadList);
+                                        getBusInfo();
 
                                         ndef.close();
                                     }
-                                }
-                                catch (Exception e){
+                                } catch (Exception e) {
                                     e.printStackTrace();
                                 }
                             }
@@ -391,32 +314,38 @@ public class MainActivity extends AppCompatActivity {
                         options
                 );
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         super.onResume();
     }
 
     // connect to Flask Sever
-    private void getDataFlask(){
+    private void getDataFlask() {
         StringRequest request = new StringRequest(
                 Request.Method.GET,
-                "http://3.104.255.16:5000/get_mod?arsId=" + payloadList[1] + "&mod=" + payloadList[2],
+                "http://13.236.145.65:8000/bus_finder?route_id=" + payloadList[0] + "&stId=" + payloadList[1],
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.e("sdf", response);
+                        Log.e("bus_finder", response);
                         try {
-                            String[] nextPreiousBusStation = response.split(",");
+                            JSONObject jsonObject = new JSONObject(response);
+                            Log.e("bus_finder(jsonObject)", jsonObject.toString());
 
-                            for(String station: nextPreiousBusStation) {
-                                Log.e("asf",station);
-                            }
+                            JSONObject prev_info = jsonObject.getJSONObject("prev_info");
+                            JSONObject next_info = jsonObject.getJSONObject("next_info");
 
-                            previStation.setText(nextPreiousBusStation[1]);
-                            nextStation.setText(nextPreiousBusStation[3]);
+                            // prev
+                            String prevBusName = prev_info.getString("stNm");
+                            // next
+                            String nextBusName = next_info.getString("stNm");
 
+                            previStation.setText(prevBusName);
+                            nextStation.setText(nextBusName);
+
+//                            System.out.println(prevBusName);
+//                            System.out.println(nextBusName);
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -434,32 +363,67 @@ public class MainActivity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                     }
                 }
-        );
+        ) {
+            @Override //response를 UTF8로 변경해주는 소스코드
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                try {
+                    String utf8String = new String(response.data, "UTF-8");
+                    return Response.success(utf8String, HttpHeaderParser.parseCacheHeaders(response));
+                } catch (UnsupportedEncodingException e) {
+                    // log error
+                    return Response.error(new ParseError(e));
+                } catch (Exception e) {
+                    // log error
+                    return Response.error(new ParseError(e));
+                }
+            }
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                return super.getParams();
+            }
+        };
+
         requestQueue = Volley.newRequestQueue(getApplicationContext());
         requestQueue.add(request);
 
         request = new StringRequest(
                 Request.Method.GET,
-                "http://3.104.255.16:5000/get_ars_id_info?mod=" + payloadList[2] + "&arsId=" + payloadList[1],
+                "http://13.236.145.65:8000/bus_info?route_id=" + payloadList[0] + "&stId=" + payloadList[1],
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.e("sdf", response);
+                        Log.e("bus_info", response);
                         try {
-                            String[] mainBar = response.split(",");
+                            // 현재 역 정보
+                            JSONObject jsonObject = new JSONObject(response);
+                            Log.e("bus_info(jsonObject)", jsonObject.toString());
+                            String busName = jsonObject.getString("rtNm");
+                            String busColor = jsonObject.getString("routeColor");
 
-                            for(String station: mainBar) {
-                                Log.e("asf",station);
-                            }
-                            currentStation.setText(payloadList[0]);
-                            busNumber.setText(mainBar[0]);
-                            firstBus.setText(mainBar[1]);
-                            secondBus.setText(mainBar[2]);
+                            String currentStationName = jsonObject.getString("stNm");
 
-                            busNumberShort.setText(mainBar[0]);
-                            firstBusShort.setText(mainBar[1]);
-                            secondBusShort.setText(mainBar[2]);
-                            // 혼잡도는 나중에 구현하기
+                            String arrFirst = jsonObject.getString("arrmsg1");
+                            String arrSecond = jsonObject.getString("arrmsg2");
+
+                            busNumber.setText(busName);
+                            busNumberShort.setText(busName);
+
+                            currentStation.setText(currentStationName);
+
+                            firstBus.setText(arrFirst);
+                            firstBusShort.setText(arrFirst);
+                            secondBus.setText(arrSecond);
+                            secondBusShort.setText(arrSecond);
+
+                            // color 더 해야함
+
+
+//                            System.out.println(busName);
+//                            System.out.println(busColor);
+//                            System.out.println(currentStation);
+//                            System.out.println(arrFirst);
+//                            System.out.println(arrSecond);
 
                             runOnUiThread(new Runnable() {
                                 @Override
@@ -479,7 +443,84 @@ public class MainActivity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                     }
                 }
-        );
+        ) {
+            @Override //response를 UTF8로 변경해주는 소스코드
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                try {
+                    String utf8String = new String(response.data, "UTF-8");
+                    return Response.success(utf8String, HttpHeaderParser.parseCacheHeaders(response));
+                } catch (UnsupportedEncodingException e) {
+                    // log error
+                    return Response.error(new ParseError(e));
+                } catch (Exception e) {
+                    // log error
+                    return Response.error(new ParseError(e));
+                }
+            }
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                return super.getParams();
+            }
+        };
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(request);
+
+        request = new StringRequest(
+                Request.Method.GET,
+                "http://13.236.145.65:8000/bus_gps?route_id=" + payloadList[0] + "&stId=" + payloadList[1],
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.e("bus_gps", response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            Log.e("bus_gps(jsonObject)", jsonObject.toString());
+
+                            Double busStationX = jsonObject.getDouble("x_point");
+                            Double busStationY = jsonObject.getDouble("y_point");
+
+                            // 버스 경도 위도
+                            busStationLocation(busStationX, busStationY);
+
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+//                                            List<String> busList = new ArrayList<>(Arrays.asList(dataList));
+//                                            showBusInfo(busList);
+                                }
+                            });
+
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                    }
+                }
+        ) {
+            @Override //response를 UTF8로 변경해주는 소스코드
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                try {
+                    String utf8String = new String(response.data, "UTF-8");
+                    return Response.success(utf8String, HttpHeaderParser.parseCacheHeaders(response));
+                } catch (UnsupportedEncodingException e) {
+                    // log error
+                    return Response.error(new ParseError(e));
+                } catch (Exception e) {
+                    // log error
+                    return Response.error(new ParseError(e));
+                }
+            }
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                return super.getParams();
+            }
+        };
         requestQueue = Volley.newRequestQueue(getApplicationContext());
         requestQueue.add(request);
     }
@@ -494,21 +535,20 @@ public class MainActivity extends AppCompatActivity {
 
     // url로 연결
 
-    public void getBusInfo(String[] payloadList) {
+    public void getBusInfo() {
         StringRequest request = new StringRequest(
                 Request.Method.GET,
-                "http://3.104.255.16:5000/get_routes?station_name=" + payloadList[0],
+                "http://13.236.145.65:8000/bus_list?route_id=" + payloadList[0] + "&stId=" + payloadList[1],
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.e("sdf", response);
+                        Log.e("bus_list", response);
                         try {
-                            JSONObject jsonObject =  new JSONObject(response);
-                            String data = jsonObject.getString("result_routes").replace("\"", "").replace("[", "").replace("]", "");
+                            String data = response.toString().replace("\"", "").replace("[", "").replace("]", "");
                             String[] dataList = data.split(",");
 
                             for (String bus : dataList) {
-                                Log.e("sdf", bus);
+                                Log.e("bus_list(data)", bus);
                             }
 
                             runOnUiThread(new Runnable() {
@@ -529,18 +569,37 @@ public class MainActivity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                     }
                 }
-        );
+        ) {
+            @Override //response를 UTF8로 변경해주는 소스코드
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                try {
+                    String utf8String = new String(response.data, "UTF-8");
+                    return Response.success(utf8String, HttpHeaderParser.parseCacheHeaders(response));
+                } catch (UnsupportedEncodingException e) {
+                    // log error
+                    return Response.error(new ParseError(e));
+                } catch (Exception e) {
+                    // log error
+                    return Response.error(new ParseError(e));
+                }
+            }
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                return super.getParams();
+            }
+        };
         requestQueue = Volley.newRequestQueue(getApplicationContext());
         requestQueue.add(request);
     }
 
     // 위치 정보
-    public void currentLocation(MapView mapView) {
+    public void currentLocation() {
         mapView.removePOIItem(currentLocation);
         gpsTracker = new GPSTracker(MainActivity.this);
-        double latitude = gpsTracker.getLatitude();
-        double longitude = gpsTracker.getLongitude();
-        MoveView(longitude, latitude, mapView);
+        double latitude = gpsTracker.getLatitude(); // 위도(수가 작음)
+        double longitude = gpsTracker.getLongitude(); // 경도(수가 큼)
+        MoveView(longitude, latitude);
 
         currentLocation.setItemName("현재 위치");
         currentLocation.setTag(0);
@@ -552,11 +611,27 @@ public class MainActivity extends AppCompatActivity {
         mapView.addPOIItem(currentLocation);
 
     }
-    public void MoveView(double longitude, double latitude,MapView mapView){
+
+    public void MoveView(double longitude, double latitude) {
         mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(latitude, longitude), true);
         mapView.setZoomLevel(1, true);
         mapView.zoomIn(true);
         mapView.zoomOut(true);
+    }
+
+    // 버스 정거장 위치
+    public void busStationLocation(double longitude, double latitude) {
+        mapView.removePOIItem(busStationLocation);
+        MoveView(longitude, latitude);
+
+        busStationLocation.setItemName("태그된 정거장");
+        busStationLocation.setTag(0);
+
+        busStationLocation.setMapPoint(MapPoint.mapPointWithGeoCoord(latitude, longitude));
+        busStationLocation.setCustomImageResourceId(R.drawable.bus_station_location_maker);
+        busStationLocation.isCustomImageAutoscale();
+        busStationLocation.setMarkerType(MapPOIItem.MarkerType.CustomImage);
+        mapView.addPOIItem(busStationLocation);
     }
 
     // 위치 권한 설정 부분
@@ -698,6 +773,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
     }
+
     public boolean checkLocationServicesStatus() {
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
