@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Query
-from BNA_server.app.services.json_service import get_bus_gps
-from BNA_server.app.utilities.deps import pattern
-from BNA_server.app.utilities.exceptions import handle_exceptions
+from services.json_service import get_bus_gps
+from utilities.deps import pattern
+from utilities.exceptions import handle_exceptions
 
 router = APIRouter()
 
