@@ -1,7 +1,7 @@
 import httpx
 import json
 import xml.etree.ElementTree as ET
-from app.utilities.keys import BUS_API_URL
+from BNA_server.app.utilities.keys import BUS_API_URL
 
 async def bus_list(route_id: str, stId: str):
     url = f"{BUS_API_URL}&busRouteId={route_id}"

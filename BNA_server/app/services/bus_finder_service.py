@@ -1,7 +1,7 @@
 import httpx
 import xml.etree.ElementTree as ET
-from app.utilities.keys import BUS_API_URL
-from app.utilities.deps import extract_bus_info
+from BNA_server.app.utilities.keys import BUS_API_URL
+from BNA_server.app.utilities.deps import extract_bus_info
 
 async def bus_finder(route_id: str, stId: str):
     url = f"{BUS_API_URL}&busRouteId={route_id}"

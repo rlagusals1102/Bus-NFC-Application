@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from fastapi import FastAPI
-from app.routes import bus_info, bus_gps, bus_finder, bus_list
+from BNA_server.app.routes import bus_info, bus_gps, bus_finder, bus_list
 
 app = FastAPI()
 
