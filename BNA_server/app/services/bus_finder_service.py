@@ -1,7 +1,13 @@
+"""
+NOTE : 노선, 정류장 ID에 대응하는 버스 정보 조회 
+현재 정류장을 기준으로 이전, 다음 버스 정보 반환
+"""
+
 import httpx
 import xml.etree.ElementTree as ET
-from utilities.keys import BUS_API_URL
-from utilities.deps import extract_bus_info
+from utils.keys import BUS_API_URL
+from utils.deps import extract_bus_info
+
 
 async def bus_finder(route_id: str, stId: str):
     url = f"{BUS_API_URL}&busRouteId={route_id}"
@@ -29,8 +35,8 @@ async def bus_finder(route_id: str, stId: str):
     except ET.ParseError:
         return {"error": "Error parsing XML."}
 
-    except httpx.HTTPError as http_err:
-        return {"error": f"HTTP error: {http_err}"}
+    except httpx.HTTPError as e:
+        return {"error": f"HTTP error: {e}"}
 
     except Exception as e:
-        return {"error": f"An unexpected error occurred: {str(e)}"}
+        return {"error": f"Exception: {str(e)}"}

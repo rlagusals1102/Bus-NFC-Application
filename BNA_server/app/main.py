@@ -1,8 +1,6 @@
-# -*- coding: utf-8 -*-
-
 from fastapi import FastAPI
 from routes import bus_info, bus_gps, bus_finder, bus_list
-from utilities.keys import SERVICE_KEY
+from utils.keys import SERVICE_KEY
 app = FastAPI()
 
 app.include_router(bus_info.router)
@@ -12,5 +10,4 @@ app.include_router(bus_list.router)
 
 if __name__ == "__main__":
     import uvicorn
-    print(SERVICE_KEY)
     uvicorn.run(app, host="0.0.0.0", port=8000)
