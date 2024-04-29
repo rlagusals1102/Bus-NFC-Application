@@ -1,4 +1,8 @@
-# Project BNA
+# Bus NFC Application
+기간 : 2023.11.25 ~ 2023.12.12<br>
+NFC Tag 활용한 실시간 버스 위치 확인 앱 입니다.
+
+# API 사용 정보
 
 ## API
 1. [공공데이터포털 - 버스도착정보조회](https://www.data.go.kr/data/15000314/openapi.do)
@@ -7,5 +11,4 @@
    - 버스 노선 정보 조회  API입니다.
 3. kakao Map API
 
-## Server
-- [aws fastapi server](http://13.236.145.65:8000/docs)<br>
+
