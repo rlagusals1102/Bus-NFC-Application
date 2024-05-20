@@ -11,4 +11,7 @@ NFC Tag 활용한 실시간 버스 위치 확인 앱 입니다.
    - 버스 노선 정보 조회  API입니다.
 3. kakao Map API
 
-
+## 기술 스택
+- Android (Java)
+- Fastapi
+- AWS EC2
