@@ -14,3 +14,7 @@ NFC Tag 활용한 실시간 버스 위치 확인 앱입니다.
    - 버스 노선 정보 조회  API입니다.
 - [API 전처리 및 통신](https://github.com/rlagusals1102/Bus-NFC-Application/tree/main/BNA_server)
   - FastAPI
+
+
+## NFC-BusLocate
+[아두이노 활용한 프로젝트](https://github.com/rlagusals1102/NFC-BusLocate)
