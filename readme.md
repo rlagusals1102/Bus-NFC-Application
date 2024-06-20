@@ -16,7 +16,7 @@ NFC Tag를 활용한 실시간 버스 위치 확인 앱입니다. 용산 03 마�
 -  [공공데이터포털 - 노선정보조회](https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15000193)
    - 버스 노선 정보 조회  API입니다.
 - [API 전처리 및 통신](https://github.com/rlagusals1102/Bus-NFC-Application/tree/main/BNA_server)
-  - FastAPI
+  - [FastAPI Server](https://github.com/rlagusals1102/BNA_Server)
 
 
 ## NFC-BusLocate
